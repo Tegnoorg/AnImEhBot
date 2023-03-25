@@ -29,3 +29,7 @@ function request(searchQuery, type) {
             throw new Error('An error occurred while fetching the anime ID');
         });
 }
+
+module.exports = {
+  request: request
+};

@@ -16,6 +16,9 @@ const client = new Client({
 
 client.on('ready', () => {
     console.log("bot is on");
+    // media.request("one piece", 'ANIME')
+    //             .then(animeID => console.log(`The ID for One Piece is ${animeID}`))
+    //             .catch(error => console.error(error));
 
 })
 
@@ -26,7 +29,7 @@ client.on('message', (message) => {
         const command = args.shift().toLowerCase();
         if (command === 'anime') {
             const searchQuery = args.join(' ');
-            media.search(searchQuery, 'ANIME')
+            media.request(searchQuery, 'ANIME')
                 .then(animeID => console.log(`The ID for One Piece is ${animeID}`))
                 .catch(error => console.error(error));
             return;
