@@ -1,5 +1,5 @@
 const axios = require('axios');
-
+const cleaner = require('./synopsisCleaner');
 async function request(animeId) {
   try {
     // Get information about the anime by ID
@@ -30,7 +30,7 @@ async function request(animeId) {
     // Get the anime information from the response
     const anime = animeResponse.data.data.Media;
     //console.log(anime);
-
+    const cleanedSynposis = cleaner.cleaner(anime.description)
     if (anime.status === 'RELEASING') {
       // Calculate the time until the next episode airs
       const timeUntilAiring = anime.nextAiringEpisode.timeUntilAiring;
@@ -44,21 +44,23 @@ async function request(animeId) {
         nextEpisodeReleaseDate: `${daysUntilAiring} days, ${hoursUntilAiring} hours, ${minutesUntilAiring} minutes`,
         title: anime.title.romaji,
         animeUrl: anime.siteUrl,
-        synopsis: anime.description
+        synopsis: cleanedSynposis
       };
     } else if (anime.status === 'FINISHED') {
       return {
         isAiring: false,
         lastEpisodeNumber: anime.episodes,
         title: anime.title.romaji,
-        animeUrl: anime.siteUrl
+        animeUrl: anime.siteUrl,
+        synopsis: cleanedSynposis
       };
     } else {
       return {
         isAiring: false,
         lastEpisodeNumber: anime.episodes,
         title: anime.title.romaji,
-        animeUrl: anime.siteUrl
+        animeUrl: anime.siteUrl,
+        synopsis: cleanedSynposis
       };
     }
   } catch (error) {
