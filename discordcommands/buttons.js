@@ -1,24 +1,19 @@
-if(command === 'button'){
+const {
+    ButtonBuilder
+} = require('@discordjs/builders');
+const {
+    MessageActionRow,
+    MessageButton
+} = require('discord.js');
 
-    const{ ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
-    const button = new ActionRowBuilder()
-    .addComponents(
-        new ButtonBuilder
-        .setCustomID('button')
-        .setLabel('Click this Button')
-        .setStyle(ButtonStyle.Primary),
-        )
+function createButton() {
+    const button = new ButtonBuilder()
+        .setCustomId('buttonId')
+        .setLabel("hi")
+        .setStyle('Primary'); // 'Primary', 'Secondary', 'Success', 'Danger', 'Link'
+
+    return button;
+}
+module.exports = {
+    createButton: createButton
 };
-
-    const embed = new EmbedBuilder()
-    .setColor("Blue")
-    .setDescription(`${message.author.tag}'s button!`)
-        
-    const embed2 = new EmbedBuilder()
-    .setColor("Blue")
-    .setDescription('The button was pressed')
-
-    message.reply[(embeds: [embed], components: [button])];
-    
-
-

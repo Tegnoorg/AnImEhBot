@@ -4,4 +4,4 @@ function cleaner(synopsis) {
 
 module.exports = {
     cleaner: cleaner
-  };  
+};
