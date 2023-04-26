@@ -7,12 +7,17 @@ const {
 } = require('discord.js');
 
 function createButton() {
-    const button = new ButtonBuilder()
-        .setCustomId('buttonId')
-        .setLabel("hi")
+    const synopsis = new ButtonBuilder()
+        .setCustomId('synopsis')
+        .setLabel("synopsis")
+        .setStyle('Primary'); // 'Primary', 'Secondary', 'Success', 'Danger', 'Link'
+    
+    const recommendations = new ButtonBuilder()
+        .setCustomId('recommendations')
+        .setLabel("recommendations")
         .setStyle('Primary'); // 'Primary', 'Secondary', 'Success', 'Danger', 'Link'
 
-    return button;
+    return [synopsis, recommendations];
 }
 module.exports = {
     createButton: createButton

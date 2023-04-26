@@ -43,7 +43,7 @@ client.on(Events.MessageCreate, message => {
                       const row = new ActionRowBuilder()
                           .addComponents(button.createButton());
                       const buttonMessage = {
-                          content: `Synopsis: ${animeInfo.synopsis} The next episode of ${animeInfo.title} is releasing in ${animeInfo.nextEpisodeReleaseDate}. ${animeInfo.animeUrl}`,
+                          content: `The next episode of ${animeInfo.title} is releasing in ${animeInfo.nextEpisodeReleaseDate}. ${animeInfo.animeUrl}`,
                           components: [row],
                       };
                       message.reply(buttonMessage);
@@ -51,11 +51,20 @@ client.on(Events.MessageCreate, message => {
                       const row = new ActionRowBuilder()
                           .addComponents(button.createButton());
                       const buttonMessage = {
-                          content: `Synopsis: ${animeInfo.synopsis}. ${animeInfo.title} has finished airing. The last episode was episode ${animeInfo.lastEpisodeNumber}. ${animeInfo.animeUrl}`,
+                          content: `${animeInfo.title} has finished airing. The last episode was episode ${animeInfo.lastEpisodeNumber}. ${animeInfo.animeUrl}`,
                           components: [row],
                       };
                       message.reply(buttonMessage);
                   }
+                  client.on('interactionCreate', interaction => {
+                    if (!interaction.isButton()) return;
+                    if(interaction.customId == "synopsis"){
+                        message.reply(`Synopsis: ${animeInfo.synopsis}`);
+                      }else if(interaction.customId == "recommendations"){
+    
+                      }
+                  });
+
               })
               .catch(error => console.error(error));
           return;
