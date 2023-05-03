@@ -14,6 +14,7 @@ const airing = require("./AniList API/episodeAir");
 const button = require("./discordcommands/buttons")
 const prefix = "!";
 
+let info = null;
 
 const client = new Client({
   intents: [
@@ -56,21 +57,21 @@ client.on(Events.MessageCreate, message => {
                       };
                       message.reply(buttonMessage);
                   }
-                  client.on('interactionCreate', interaction => {
-                    if (!interaction.isButton()) return;
-                    if(interaction.customId == "synopsis"){
-                        message.reply(`Synopsis: ${animeInfo.synopsis}`);
-                      }else if(interaction.customId == "recommendations"){
-    
-                      }
-                  });
-
+                  info = animeInfo;
               })
               .catch(error => console.error(error));
+
           return;
       }
       return;
   }
-})
+});
+client.on('interactionCreate', interaction => {
+    if (!interaction.isButton()) return;
+    if(interaction.customId == "synopsis"){
+        interaction.reply(`Synopsis: ${info.synopsis}`);
+      }else if(interaction.customId == "recommendations"){
 
+      }
+  });
 client.login(process.env.TOKEN)
