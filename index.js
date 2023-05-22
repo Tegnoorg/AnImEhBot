@@ -72,6 +72,8 @@ client.on(Events.MessageCreate, message => {
                         message.channel.send(buttonMessage);
                     }
                     info = animeInfo;
+                }).then(recommend.request(animeID)).then(recommend =>{
+                    let recommendId = recommend;
                 })
                 .catch(error => console.error(error));
 
