@@ -74,6 +74,7 @@ client.on(Events.MessageCreate, message => {
                     info = animeInfo;
                 }).then(recommend.request(animeID)).then(recommend =>{
                     let recommendId = recommend;
+                    airing.request(recommendId)
                 })
                 .catch(error => console.error(error));
 
