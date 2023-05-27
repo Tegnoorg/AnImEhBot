@@ -127,3 +127,4 @@ const {
   
   client.login(process.env.TOKEN);
   
+  // Tegnoor didn't do much hes a bot, Vish solo'd ez work
