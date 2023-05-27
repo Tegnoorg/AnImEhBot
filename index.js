@@ -86,6 +86,7 @@ const {
     if (!interaction.isButton()) return;
     if (interaction.customId == "synopsis") {
         await interaction.channel.send(`${user} Synopsis: ${info.synopsis}`);
+        interaction.update();
     } else if (interaction.customId == "recommendations") {
       try {
         const recID = await recommendations.request();
@@ -108,6 +109,7 @@ const {
                 };
                 interaction.channel.send(buttonMessage);
               }
+              interaction.update();
           })
           .catch(error => console.error(error));
       } catch (error) {
