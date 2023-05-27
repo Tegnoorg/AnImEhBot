@@ -20,6 +20,7 @@ const {
   let user = null;
   let userId = null;
   let ids = null;
+  let buttonMessage = {};
   
   const client = new Client({
     intents: [
@@ -85,36 +86,42 @@ const {
     
     if (!interaction.isButton()) return;
     if (interaction.customId == "synopsis") {
-        await interaction.channel.send(`${user} Synopsis: ${info.synopsis}`);
-        interaction.update();
+        interaction.channel.send(`${user} Synopsis: ${info.synopsis}`);
+        interaction.update(buttonMessage);
     } else if (interaction.customId == "recommendations") {
-      try {
-        const recID = await recommendations.request();
-        airing.request(recID)
-          .then(animeInfo => {
-            console.log(recID);
-            console.log(animeInfo);
-            if (animeInfo.isAiring) {
-               
-                const buttonMessage = {
-                  content: `${user} The next episode of ${animeInfo.title} is releasing in ${animeInfo.nextEpisodeReleaseDate}. ${animeInfo.animeUrl}`,
-                  
-                };
-                interaction.channel.send(buttonMessage);
-              } else {
-                
-                const buttonMessage = {
-                  content: `${user} ${animeInfo.title} has finished airing. The last episode was episode ${animeInfo.lastEpisodeNumber}. ${animeInfo.animeUrl}`,
-                  
-                };
-                interaction.channel.send(buttonMessage);
-              }
-              interaction.update();
-          })
-          .catch(error => console.error(error));
+
+        
+       while(true){
+        try {
+            const recID = await recommendations.request();
+            airing.request(recID)
+              .then(recAnimeInfo => {
+                console.log(recID);
+                console.log(recAnimeInfo);
+                if (recAnimeInfo.isAiring) {
+                    const buttonMessage1 = {
+                      content: `${user} The next episode of ${recAnimeInfo.title} is releasing in ${recAnimeInfo.nextEpisodeReleaseDate}. ${recAnimeInfo.animeUrl}`,
+                      
+                    };
+                    interaction.channel.send(buttonMessage1);
+                    interaction.update(buttonMessage1)
+                  } else {
+                    
+                    const buttonMessage1 = {
+                      content: `${user} ${recAnimeInfo.title} has finished airing. The last episode was episode ${recAnimeInfo.lastEpisodeNumber}. ${recAnimeInfo.animeUrl}`,
+                      
+                    };
+                    interaction.channel.send(buttonMessage1);
+                    interaction.update(buttonMessage);
+                  }
+              })
+              .catch(error => console.error(error));
+              break;
       } catch (error) {
         console.error(error);
+        break;
       }
+    }
     }
   });
   
