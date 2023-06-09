@@ -1,10 +1,49 @@
+const axios = require('axios');
 
+// Function to recommend anime based on a given anime ID
+async function request(animeId) {
+  try {
+    // Query for the anime details
+    const query = `
+      query ($id: Int) {
+        Media (id: $id, type: ANIME) {
+          recommendations {
+            edges {
+              node {
+                mediaRecommendation {
+                  id
+                }
+              }
+            }
+          }
+        }
+      }
+    `;
 
-async function request() {
-  const randomNumber = Math.floor(Math.random() * 10000) + 1;
-  return randomNumber;
+    // Make the API request
+    const response = await axios.post('https://graphql.anilist.co', {
+      query: query,
+      variables: {
+        id: animeId
+      }
+    });
+
+    // Extract the recommended anime IDs from the response
+    const recommendations = response.data.data.Media.recommendations.edges;
+    const recommendedAnimeIds = recommendations.map(
+      edge => edge.node.mediaRecommendation.id
+    );
+
+    return recommendedAnimeIds;
+  } catch (error) {
+    console.error('Error fetching anime recommendations:', error);
+    return [];
+  }
 }
-console.log(request());
+
+
+
 module.exports = {
-  request: request
-};
+    request: request
+  };
+  

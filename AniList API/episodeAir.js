@@ -39,28 +39,34 @@ async function request(animeId) {
       const minutesUntilAiring = Math.floor((timeUntilAiring % 3600) / 60);
 
       return {
+        id: anime.id,
         isAiring: true,
         latestEpisodeNumber: anime.nextAiringEpisode.episode - 1,
         nextEpisodeReleaseDate: `${daysUntilAiring} days, ${hoursUntilAiring} hours, ${minutesUntilAiring} minutes`,
         title: anime.title.romaji,
         animeUrl: anime.siteUrl,
-        synopsis: cleanedSynposis
+        synopsis: cleanedSynposis,
+        status: animeResponse.status
       };
     } else if (anime.status === 'FINISHED') {
       return {
+        id: anime.id,
         isAiring: false,
         lastEpisodeNumber: anime.episodes,
         title: anime.title.romaji,
         animeUrl: anime.siteUrl,
-        synopsis: cleanedSynposis
+        synopsis: cleanedSynposis,
+        status: animeResponse.status
       };
     } else {
       return {
+        id: anime.id,
         isAiring: false,
         lastEpisodeNumber: anime.episodes,
         title: anime.title.romaji,
         animeUrl: anime.siteUrl,
-        synopsis: cleanedSynposis
+        synopsis: cleanedSynposis,
+        status: animeResponse.status
       };
     }
   } catch (error) {
